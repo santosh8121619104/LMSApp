@@ -1,4 +1,5 @@
 ﻿using LMSApp.Api.Models;
+using LMSApp.Api.Repositories;
 using LMSApp.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

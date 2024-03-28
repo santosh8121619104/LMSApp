@@ -15,7 +15,7 @@
 
                     <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-24pt"
                          style="white-space: nowrap;">
-                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying 4 out of @courseCount</small>
+                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying @courseCount out of @Model.CourseList.TotalCount</small>
                         <div class="w-auto ml-sm-auto table d-flex align-items-center mb-2 mb-sm-0">
                             <small class="text-muted text-headings text-uppercase mr-3 d-none d-sm-block">Sort by</small>
 
@@ -143,42 +143,34 @@
                     </div>
 
                     <div class="mb-32pt">
-
                         <ul class="pagination justify-content-start pagination-xsm m-0">
-                            <li class="page-item disabled">
+                            <li class="page-item @(Model.CourseList.HasPreviousPage ? "" : "disabled")">
                                 <a class="page-link"
-                                   href="#"
+                                   asp-page="./Courses"
+                                   asp-route-pageIndex="@(Model.CourseList.PageIndex - 1)"
                                    aria-label="Previous">
-                                    <span aria-hidden="true"
-                                          class="material-icons">chevron_left</span>
+                                    <span aria-hidden="true" class="material-icons">chevron_left</span>
                                     <span>Prev</span>
                                 </a>
                             </li>
-                            <li class="page-item">
+
+                            @for (var i = 1; i <= Model.CourseList.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.CourseList.PageIndex ? "active" : "")">
+                                    <a class="page-link" asp-page="./Courses" asp-route-pageIndex="@i">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(Model.CourseList.HasNextPage ? "" : "disabled")">
                                 <a class="page-link"
-                                   href="#"
-                                   aria-label="Page 1">
-                                    <span>1</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="#"
-                                   aria-label="Page 2">
-                                    <span>2</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="#"
+                                   asp-page="./Courses"
+                                   asp-route-pageIndex="@(Model.CourseList.PageIndex + 1)"
                                    aria-label="Next">
                                     <span>Next</span>
-                                    <span aria-hidden="true"
-                                          class="material-icons">chevron_right</span>
+                                    <span aria-hidden="true" class="material-icons">chevron_right</span>
                                 </a>
                             </li>
                         </ul>
-
                     </div>
 
                     <div class="page-separator">

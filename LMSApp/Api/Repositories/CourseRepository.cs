@@ -1,7 +1,8 @@
 ﻿using LMSApp.Api.Models;
+using LMSApp.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LMSApp.Api.Repositories.Interfaces
+namespace LMSApp.Api.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
@@ -17,9 +18,9 @@ namespace LMSApp.Api.Repositories.Interfaces
             return await _dbContext.Courses.Include(a => a.Lessons).Include(a => a.Instructor).Where(a => a.CourseId == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Course>> GetAllAsync()
+        public async Task<IQueryable<Course>> GetAllAsync()
         {
-            return await _dbContext.Courses.Include(a=>a.Lessons).ToListAsync();
+            return  _dbContext.Courses.Include(a => a.Lessons).AsQueryable();
         }
 
         public async Task AddAsync(Course course)

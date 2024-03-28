@@ -1,4 +1,5 @@
-﻿using LMSApp.Api.Models;
+﻿using LMSApp.Api.Handlers;
+using LMSApp.Api.Models;
 using LMSApp.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,14 @@ namespace LMSApp.Pages
         {
             _repository = repository;
         }
+        private const int PageSize = 4;
+        public PaginatedList<Course> CourseList { get; set; }
 
-        public IEnumerable<Course> CourseList { get; set; }
-
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? pageIndex)
         {
-            CourseList = await _repository.GetAllAsync();
+            IQueryable<Course> coursesIQ = await _repository.GetAllAsync();
+            CourseList = await PaginatedList<Course>.CreateAsync(
+           coursesIQ, pageIndex ?? 1, PageSize);
         }
     }
 }
