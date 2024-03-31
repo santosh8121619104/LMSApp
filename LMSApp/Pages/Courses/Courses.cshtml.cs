@@ -1,5 +1,4 @@
-﻿using LMSApp.Api.Handlers;
-using LMSApp.Api.Models;
+﻿using LMSApp.Api.Models;
 using LMSApp.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;

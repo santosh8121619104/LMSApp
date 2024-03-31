@@ -1,0 +1,217 @@
+﻿@using LMSApp.ViewModel;
+@model CoursesViewModel
+<div class="d-flex flex-column flex-sm-row align-items-sm-center mb-24pt"
+     style="white-space: nowrap;">
+    <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying @Model.CourseList.Count() out of @Model.CourseList.TotalCount</small>
+    <div class="w-auto ml-sm-auto table d-flex align-items-center mb-2 mb-sm-0">
+        <small class="text-muted text-headings text-uppercase mr-3 d-none d-sm-block">Sort by</small>
+
+        <a href="#"
+           class="sort desc small text-headings text-uppercase">Newest</a>
+
+        <a href="#"
+           class="sort small text-headings text-uppercase ml-2">Popularity</a>
+
+    </div>
+
+    <a href="#"
+       data-target="#library-drawer"
+       data-toggle="sidebar"
+       class="btn btn-sm btn-white ml-sm-16pt">
+        <i class="material-icons icon--left">tune</i> Filters
+    </a>
+
+</div>
+
+<div class="page-separator">
+    <div class="page-separator__text">@Model.Name</div>
+</div>
+
+<div class="row card-group-row">
+
+    @foreach (var courses in Model.CourseList)
+    {
+
+        <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
+
+            <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay mdk-reveal js-mdk-reveal card-group-row__card"
+                 data-partial-height="44"
+                 data-toggle="popover"
+                 data-trigger="click">
+                <a asp-page="/Courses/StudentCourse" asp-route-id="@courses.CourseId">
+                    <img src="~/images/paths/mailchimp_200x168.png" alt="course">
+                    <span class="overlay__content align-items-start justify-content-start">
+                        <span class="overlay__action card-body d-flex align-items-center">
+                            <i class="material-icons mr-4pt">play_circle_outline</i>
+                            <span class="card-title text-white">Preview</span>
+                        </span>
+                    </span>
+                </a>
+                <div class="mdk-reveal__content">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex">
+                                <a class="card-title">@courses.CourseName</a>
+                                <small class="text-50 font-weight-bold mb-4pt">@courses.InstructorName</small>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="rating flex">
+                                <span class="rating__item"><span class="material-icons">star</span></span>
+                                <span class="rating__item"><span class="material-icons">star</span></span>
+                                <span class="rating__item"><span class="material-icons">star</span></span>
+                                <span class="rating__item"><span class="material-icons">star</span></span>
+                                <span class="rating__item"><span class="material-icons">star_border</span></span>
+                            </div>
+                            <small class="text-50">6 hours</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popoverContainer d-none">
+                <div class="media">
+                    <div class="media-left mr-12pt">
+                        <img src="~/images/paths/flinto_430x168.png"
+                             width="40"
+                             height="40"
+                             alt="Angular"
+                             class="rounded">
+                    </div>
+                    <div class="media-body">
+                        <div class="card-title mb-0">@courses.CourseName</div>
+                        <p class="lh-1 mb-0">
+                            <span class="text-50 small">with</span>
+                            <span class="text-50 small font-weight-bold">@courses.InstructorName</span>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="my-16pt text-70">@courses.Description</p>
+
+                <div class="mb-16pt">
+                    @foreach (var lesson in @courses.Lessons)
+                    {
+                        <div class="d-flex align-items-center">
+                            <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                            <p class="flex text-50 lh-1 mb-0"><small>@lesson.LessonName</small></p>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="d-flex align-items-center mb-4pt">
+                            <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
+                            <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                        </div>
+                        <div class="d-flex align-items-center mb-4pt">
+                            <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
+                            <p class="flex text-50 lh-1 mb-0"><small> @courses.Lessons.Count() lessons</small></p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
+                            <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <a class="btn btn-primary">Watch trailer</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<!-- Pagination Controls -->
+<div class="mb-32pt">
+    <ul class="pagination justify-content-start pagination-xsm m-0">
+        <!-- Previous Page Link -->
+        <li class="page-item @(Model.CourseList.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="javascript:void(0);" aria-label="Previous" onclick="changePages(@(Model.CourseList.PageIndex - 1))">
+                <span aria-hidden="true" class="material-icons">chevron_left</span>
+                <span>Prev</span>
+            </a>
+        </li>
+
+        <!-- Page Numbers -->
+        @for (int i = 1; i <= Model.CourseList.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CourseList.PageIndex ? "active" : "")">
+                <a class="page-link" href="javascript:void(0);" onclick="changePages(@i)">@i</a>
+            </li>
+        }
+
+        <!-- Next Page Link -->
+        <li class="page-item @(Model.CourseList.HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="javascript:void(0);" aria-label="Next" onclick="changePages(@(Model.CourseList.PageIndex + 1))">
+                <span>Next</span>
+                <span aria-hidden="true" class="material-icons">chevron_right</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script>
+    console.log("scripts getting rendered in script tag");
+    function changePages(pageIndex) {
+        var filterParameter = "@Model.filterParameter".trim();
+        if (filterParameter === "") {
+            filterParameter = null;
+        }
+        let cId = "@Model.ContainerId";
+        let sortParameter = "@Model.sortParameter";
+        let name = "@Model.Name";
+        let queryString = `?sortParameter=${sortParameter}&filterParameter=${filterParameter}&pageIndex=${pageIndex}&Name=${name}`;
+        var url = '@Url.Action("Invoke", "CoursesViewComponent")' + queryString;
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById(cId).innerHTML = html;
+
+                // Update browser's URL and history if needed
+                // window.history.pushState({ path: url }, '', url);
+            })
+            .catch(error => console.error('Error loading the page: ', error));
+    }
+</script>
+
+@* @section Scripts {
+    <script>
+
+        console.log("scripts getting rendered in script tag");
+        $(document).ready(){
+            console.log("scripts getting rendered")
+
+    function changePages(pageIndex) { 
+        console.log("Triggered on Action");
+    }
+
+        };
+
+
+            function changePages(pageIndex) {
+                let filterParameter = @Model.filterParameter;
+                let sortParameter = @Model.sortParameter;
+                let name = @Model.Name;
+                let queryString = `?sortParameter=${sortParameter}&filterParameter=${filterParameter}&pageIndex=${pageIndex}&Name=${name}`;
+                var url = '@Url.Action("Invoke", "CoursesViewComponent")' + queryString;
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('coursesContainer').innerHTML = html;
+
+                        // Update browser's URL and history if needed
+                        // window.history.pushState({ path: url }, '', url);
+                    })
+                    .catch(error => console.error('Error loading the page: ', error));
+            }
+    </script>
+}
+ *@
+
+
+
+

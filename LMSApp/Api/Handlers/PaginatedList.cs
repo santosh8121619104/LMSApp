@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace LMSApp.Api.Handlers
+namespace LMSApp
 {
     public class PaginatedList<T> : List<T>
     {
