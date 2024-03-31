@@ -9,5 +9,6 @@ namespace LMSApp.ViewModel
         public PaginatedList<Course> CourseList { get; set; }
         public string sortParameter { get; internal set; }
         public string filterParameter { get; internal set; }
+        public int PageSize { get; internal set; }
     }
 }

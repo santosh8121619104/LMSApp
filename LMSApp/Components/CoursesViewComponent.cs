@@ -15,13 +15,14 @@ namespace LMSApp.Components
             _repository = repository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string sortParameter, string filterParameter, int? pageIndex,string Name, int pageSize,string ContainerId)
+        public async Task<IViewComponentResult> InvokeAsync(string sortParameter, string filterParameter,string Name, int pageSize,string ContainerId, int? pageIndex)
         {
             CoursesViewModel coursesViewModel = new CoursesViewModel();
             coursesViewModel.sortParameter = sortParameter;
             coursesViewModel.filterParameter = filterParameter;
             coursesViewModel.Name = Name;
             coursesViewModel.ContainerId = ContainerId;
+            coursesViewModel.PageSize = pageSize;
             IQueryable<Course> coursesQuery = await _repository.GetAllAsync();
 
             // Filter
@@ -48,7 +49,7 @@ namespace LMSApp.Components
 
             var paginatedList = await PaginatedList<Course>.CreateAsync(coursesQuery, pageIndex ?? 1, pageSize);
             coursesViewModel.CourseList = paginatedList;
-            return View(coursesViewModel);
+            return View("Default",coursesViewModel);
         }
     }
 }
