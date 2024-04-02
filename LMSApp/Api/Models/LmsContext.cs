@@ -27,6 +27,8 @@ public partial class LmsContext : DbContext
 
     public virtual DbSet<Enrollment> Enrollments { get; set; }
 
+    public virtual DbSet<Feedback> Feedbacks { get; set; }
+
     public virtual DbSet<ForumPost> ForumPosts { get; set; }
 
     public virtual DbSet<Grade> Grades { get; set; }
@@ -243,6 +245,34 @@ public partial class LmsContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Enrollments)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__Enrollmen__UserI__440B1D61");
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF6934A39D8");
+
+            entity.ToTable("Feedback");
+
+            entity.Property(e => e.FeedbackId).HasColumnName("FeedbackID");
+            entity.Property(e => e.CourseId).HasColumnName("CourseID");
+            entity.Property(e => e.CreateDate).HasDefaultValueSql("(sysdatetimeoffset())");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FeedbackText).IsUnicode(false);
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).HasDefaultValueSql("(sysdatetimeoffset())");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Course).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK__Feedback__Course__6442E2C9");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__Feedback__UserID__65370702");
         });
 
         modelBuilder.Entity<ForumPost>(entity =>

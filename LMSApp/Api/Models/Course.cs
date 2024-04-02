@@ -33,6 +33,8 @@ public partial class Course
 
     public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
     public virtual User? Instructor { get; set; }
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

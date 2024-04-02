@@ -1,0 +1,273 @@
+﻿@model LMSApp.ViewModel.FeedBackViewModel
+
+<div class="page-section border-bottom-2">
+    <div class="container">
+        <div class="page-headline text-center">
+            <h2>Feedback</h2>
+            <p class="lead text-70 measure-lead mx-auto">What other students turned professionals have to say about us after learning with us and reaching their goals.</p>
+        </div>
+        @{
+            var courseCount = Model.feedbacks.Where(a=>a.RatingScore>=4 && a.User!=null).Take(3);
+            var lastElement = 0;
+        }
+        <div class="position-relative carousel-card p-0 mx-auto">
+            <div class="row d-block js-mdk-carousel"
+                 id="carousel-feedback">
+                <a class="carousel-control-next js-mdk-carousel-control mt-n24pt"
+                   href="#carousel-feedback"
+                   role="button"
+                   data-slide="next">
+                    <span class="carousel-control-icon material-icons"
+                          aria-hidden="true">keyboard_arrow_right</span>
+                    <span class="sr-only">Next</span>
+                </a>
+                <div class="mdk-carousel__content">
+
+                    @foreach (var item in courseCount)
+                    {
+                        <div class="col-12 col-md-6">
+
+                            <div class="card card-feedback card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p class="text-70 small mb-0">@item.FeedbackText</p>
+                                </blockquote>
+                            </div>
+                            <div class="media ml-12pt">
+                                <div class="media-left mr-12pt">
+                                    <a href="student-profile.html"
+                                       class="avatar avatar-sm">
+                                        <!-- <img src="../../public/images/people/110/guy-.jpg" width="40" alt="avatar" class="rounded-circle"> -->
+                                        <span class="avatar-title rounded-circle">@item.User.FirstName[0] @item.User.LastName[0]</span>
+                                    </a>
+                                </div>
+                                <div class="media-body media-middle">
+                                    <a href="student-profile.html"
+                                       class="card-title">@item.User.FirstName @item.User.LastName</a>
+                                    <div class="rating mt-4pt">
+                                        @for (int i = 1; i < 6; i++)
+                                        {
+                                            if (@item.RatingScore >= i)
+                                            {
+                                                <span class="rating__item"><span class="material-icons">star</span></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="rating__item"><span class="material-icons">star_border</span></span>
+
+                                            }
+                                        }
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section bg-alt border-bottom-2">
+
+    <div class="container page__container">
+        <div class="page-separator">
+            <div class="page-separator__text">Student Feedback</div>
+        </div>
+        <div class="row mb-32pt">
+            <div class="col-md-3 mb-32pt mb-md-0">
+                <div class="display-1">@Model.averageRating</div>
+                <div class="rating rating-24">
+                    @for (int i = 1; i < 6; i++)
+                    {
+                        if (@Model.averageRating >= i)
+                        {
+                            <span class="rating__item"><span class="material-icons">star</span></span>
+                        }
+                        else
+                        {
+                            <span class="rating__item"><span class="material-icons">star_border</span></span>
+
+                        }
+                    }
+                </div>
+                <p class="text-muted mb-0">@Model.feedbacks.Count  ratings</p>
+            </div>
+            <div class="col-md-9">
+
+                @for (int i = 5; i >= 1; i--)
+                {
+                    double value;
+                    // Check if the rating percentage for the current rating exists in the model
+                    if (Model.ratingPercentages.TryGetValue(i, out value))
+                    {
+                        // Render HTML for ratings with existing percentage
+                        <div class="row align-items-center mb-8pt"
+                             data-toggle="tooltip"
+                             data-title="@string.Format("{0}% rated {1}/5", value, i)" 
+                             data-placement="top">
+                            <div class="col-md col-sm-6">
+                                <div class="progress" style="height: 8px;">
+                                    <!-- Progress bar with width based on rating percentage -->
+                                    <div class="progress-bar bg-secondary"
+                                         role="progressbar"
+                                         aria-valuenow="@value"
+                                         style="width: @value%"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
+                                <!-- Render star icons based on rating -->
+                                <div class="rating">
+                                    @for (int j = 1; j < 6; j++)
+                                    {
+                                        if (j<=i)
+                                        {
+                                            <span class="rating__item"><span class="material-icons">star</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="rating__item"><span class="material-icons">star_border</span></span>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        // Render HTML for ratings with no existing percentage (value == 0)
+                        <div class="row align-items-center mb-8pt"
+                             data-toggle="tooltip"
+                             data-title="0% rated @i/5" 
+                             data-placement="top">
+                            <div class="col-md col-sm-6">
+                                <div class="progress" style="height: 8px;">
+                                    <!-- Progress bar with 0% width -->
+                                    <div class="progress-bar bg-secondary"
+                                         role="progressbar"
+                                         aria-valuenow="0"
+                                         style="width: 0%"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
+                                <!-- Render star icons for this value of i -->
+                                <div class="rating">
+                                    @for (int j = 1; j < 6; j++)
+                                    {
+                                        if (j<=i)
+                                        {
+                                            <span class="rating__item"><span class="material-icons">star</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="rating__item"><span class="material-icons">star_border</span></span>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+                
+
+
+
+            </div>
+        </div>
+        
+        @foreach (var item in Model.feedbacks.Where(a => a.User != null).TakeLast(5))
+        {
+            lastElement++;
+
+            <div class="@(lastElement != 5 ? "pb-16pt mb-16pt border-bottom row" : "pb-16pt mb-24pt row")">
+                <div class="col-md-3 mb-16pt mb-md-0">
+                    <div class="d-flex">
+                        <a href="student-profile.html"
+                           class="avatar avatar-sm mr-12pt">
+                            <!-- <img src="LB" alt="avatar" class="avatar-img rounded-circle"> -->
+                            <span class="avatar-title rounded-circle">@item.User.FirstName[0] @item.User.LastName[0]</span>
+                        </a>
+                        <div class="flex">
+                            <p class="small text-muted m-0 date-text" data-created-date= @item.CreateDate></p>
+                            <a href="student-profile.html"
+                               class="card-title">@item.User.FirstName @item.User.LastName</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="rating mb-8pt">
+                        @for (int i = 1; i < 6; i++)
+                        {
+                            if (@item.RatingScore >= i)
+                            {
+                                <span class="rating__item"><span class="material-icons">star</span></span>
+                            }
+                            else
+                            {
+                                <span class="rating__item"><span class="material-icons">star_border</span></span>
+
+                            }
+                        }
+                    </div>
+                    <p class="text-70 mb-0">@item.FeedbackText</p>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+
+
+
+@section scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+            function calculateDateText(givenDateTime) {
+                var currentDateTime = moment();
+                var timeDifference = moment.duration(currentDateTime.diff(moment(givenDateTime)));
+                var result;
+
+                if (timeDifference.asDays() < 1) {
+                    result = "today";
+                } else if (timeDifference.asDays() < 2) {
+                    result = "1 day ago";
+                } else if (timeDifference.asDays() < 31) {
+                    result = Math.floor(timeDifference.asDays()) + " days ago";
+                } else if (timeDifference.asDays() < 61) {
+                    result = "1 month ago";
+                } else if (timeDifference.asDays() < 365) {
+                    result = Math.floor(timeDifference.asMonths()) + " months ago";
+                } else {
+                    result = "over a year ago";
+                }
+
+                return result;
+            }
+
+            // Function to update the content of the p tag with the calculated date text
+            function updateDateText() {
+                var pTags = document.querySelectorAll('.date-text');
+
+                pTags.forEach(function (pTag) {
+                    var createdDate = pTag.getAttribute('data-created-date');
+                    pTag.textContent = calculateDateText(createdDate);
+                });
+            }
+
+            // Call the updateDateText function when the document is loaded
+            document.addEventListener('DOMContentLoaded', updateDateText);
+    </script>
+}
+
+
