@@ -23,11 +23,17 @@ public partial class Course
 
     public DateTimeOffset? ModifiedDate { get; set; }
 
+    public bool IsPaid { get; set; }
+
+    public int? CategoryId { get; set; }
+
     public virtual ICollection<Announcement> Announcements { get; set; } = new List<Announcement>();
 
     public virtual ICollection<Assessment> Assessments { get; set; } = new List<Assessment>();
 
     public virtual ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+
+    public virtual Category? Category { get; set; }
 
     public virtual ICollection<DiscussionForum> DiscussionForums { get; set; } = new List<DiscussionForum>();
 
@@ -36,6 +42,8 @@ public partial class Course
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public virtual User? Instructor { get; set; }
+
+    public virtual ICollection<LessonStep> LessonSteps { get; set; } = new List<LessonStep>();
 
     public virtual ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 

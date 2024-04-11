@@ -17,6 +17,7 @@ builder.Services.AddDbContext<LmsContext>(options =>
 });
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IuserRepository, UserRepository>();
 
 var app = builder.Build();
 

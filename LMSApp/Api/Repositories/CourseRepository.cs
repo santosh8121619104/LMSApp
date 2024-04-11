@@ -15,7 +15,7 @@ namespace LMSApp.Api.Repositories
 
         public async Task<Course> GetByIdAsync(int id)
         {
-            return await _dbContext.Courses.Include(a => a.Lessons).Include(a => a.Instructor).Where(a => a.CourseId == id).FirstOrDefaultAsync();
+            return await _dbContext.Courses.Include(a => a.Lessons).ThenInclude(a=>a.LessonSteps).Include(a => a.Instructor).Where(a => a.CourseId == id).FirstOrDefaultAsync();
         }
 
         public async Task<IQueryable<Course>> GetAllAsync()

@@ -127,32 +127,9 @@
                                         <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
                                     </a>
                                 </div>
-
-                                @foreach(var lessons in Model.Course.Lessons)
-                                {  //To-Do place it in a view component
-                                    <div class="accordion__item">
-                                        <a href="#"
-                                           class="accordion__toggle"
-                                           data-toggle="collapse"
-                                           data-target="#course-toc-3" + @lessons.LessonId
-                                           data-parent="#parent">
-                                            <span class="flex">@lessons.LessonName</span>
-                                            <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
-                                        </a>
-                                        <div class="accordion__menu collapse"
-                                             id="course-toc-3">
-                                            <div class="accordion__menu-link">
-                                                <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
-                                                    <i class="material-icons icon-16pt">lock</i>
-                                                </span>
-                                                <a class="flex"
-                                                   href="student-lesson.html">@lessons.Content</a>
-                                                <span class="text-muted">04:23</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                
+                                <div>
+                                    @await Component.InvokeAsync("Lesson", new { CourseId = Model.Course.CourseId })
+                                </div>
                                 
                             </div>
 
@@ -207,131 +184,8 @@
 
             </div>
 
-            <div class="page-section bg-alt border-bottom-2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-7 mb-24pt mb-md-0">
-                            <h4>About the author</h4>
-                            <p class="text-70 mb-24pt">Eddie Bryan is a software developer at LearnD*ash. With more than 20 years o*f software development experience, he has gained a passion for Agile software development -- especially Lean.</p>
-
-                            <div class="page-separator">
-                                <div class="page-separator__text bg-white">More from the author</div>
-                            </div>
-
-                            <div class="card card-sm mb-8pt">
-                                <div class="card-body d-flex align-items-center">
-                                    <a href="course.html"
-                                       class="avatar avatar-4by3 mr-12pt">
-                                        <img src="public/images/paths/angular_routing_200x168.png"
-                                             alt="Angular Routing In-Depth"
-                                             class="avatar-img rounded">
-                                    </a>
-                                    <div class="flex">
-                                        <a class="card-title mb-4pt"
-                                           href="course.html">Angular Routing In-Depth</a>
-                                        <div class="d-flex align-items-center">
-                                            <div class="rating mr-8pt">
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star_border</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star_border</span></span>
-
-                                            </div>
-                                            <small class="text-muted">3/5</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card card-sm mb-16pt">
-                                <div class="card-body d-flex align-items-center">
-                                    <a href="course.html"
-                                       class="avatar avatar-4by3 mr-12pt">
-                                        <img src="public/images/paths/angular_testing_200x168.png"
-                                             alt="Angular Unit Testing"
-                                             class="avatar-img rounded">
-                                    </a>
-                                    <div class="flex">
-                                        <a class="card-title mb-4pt"
-                                           href="course.html">Angular Unit Testing</a>
-                                        <div class="d-flex align-items-center">
-                                            <div class="rating mr-8pt">
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star</span></span>
-
-                                                <span class="rating__item"><span class="material-icons">star_border</span></span>
-
-                                            </div>
-                                            <small class="text-muted">4/5</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="list-group list-group-flush">
-                                <div class="list-group-item px-0">
-                                    <a href=""
-                                       class="card-title mb-4pt">Angular Best Practices</a>
-                                    <p class="lh-1 mb-0">
-                                        <small class="text-muted mr-8pt">6h 40m</small>
-                                        <small class="text-muted mr-8pt">13,876 Views</small>
-                                        <small class="text-muted">13 May 2018</small>
-                                    </p>
-                                </div>
-                                <div class="list-group-item px-0">
-                                    <a href=""
-                                       class="card-title mb-4pt">Unit Testing in Angular</a>
-                                    <p class="lh-1 mb-0">
-                                        <small class="text-muted mr-8pt">6h 40m</small>
-                                        <small class="text-muted mr-8pt">13,876 Views</small>
-                                        <small class="text-muted">13 May 2018</small>
-                                    </p>
-                                </div>
-                                <div class="list-group-item px-0">
-                                    <a href=""
-                                       class="card-title mb-4pt">Migrating Applications from AngularJS to Angular</a>
-                                    <p class="lh-1 mb-0">
-                                        <small class="text-muted mr-8pt">6h 40m</small>
-                                        <small class="text-muted mr-8pt">13,876 Views</small>
-                                        <small class="text-muted">13 May 2018</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5 pt-sm-32pt pt-md-0 d-flex flex-column align-items-center justify-content-start">
-                            <div class="text-center">
-                                <p class="mb-16pt">
-                                    <img src="../../public/images/people/110/guy-6.jpg"
-                                         alt="guy-6"
-                                         class="rounded-circle"
-                                         width="64">
-                                </p>
-                                <h4 class="m-0">Eddie Bryan</h4>
-                                <p class="lh-1">
-                                    <small class="text-muted">Angular, Web Development</small>
-                                </p>
-                                <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
-                                    <a href="teacher-profile.html"
-                                       class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
-                                    <a href="teacher-profile.html"
-                                       class="btn btn-outline-secondary">View Profile</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="authorViewComponent">
+                @await Component.InvokeAsync("Author", new { userId = Model.Course.InstructorId })
             </div>
                 <div id="viewComponentContainerNewest">
                 @await Component.InvokeAsync("FeedBack", new { CourseId = Model.Course.CourseId })
